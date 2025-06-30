@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inventario - Sistema de Gestión</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="nav-title">Sistema de Inventario</h1>
+            <ul class="nav-menu">
+                <li><a href="inventario.html" class="active">Inventario</a></li>
+                <li><a href="contactos.html">Contactos</a></li>
+                <li><a href="boletas.html">Boletas</a></li>
+                <li><a href="registro.html">Registro</a></li>
+                <li><a href="#" onclick="logout()">Cerrar Sesión</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h2>Gestión de Inventario</h2>
+            <button class="btn btn-primary" onclick="openModal('productModal')">Agregar Producto</button>
+        </div>
+
+        <!-- Alertas de Stock Mínimo -->
+        <div id="stockAlerts" class="alerts-container" style="display: none;">
+            <h3>⚠️ Alertas de Stock Mínimo</h3>
+            <div id="alertsList"></div>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filters-container">
+            <input type="text" id="searchProduct" placeholder="Buscar producto..." onkeyup="filterProducts()">
+            <select id="categoryFilter" onchange="filterProducts()">
+                <option value="">Todas las categorías</option>
+                <option value="Electrónicos">Electrónicos</option>
+                <option value="Ropa">Ropa</option>
+                <option value="Hogar">Hogar</option>
+                <option value="Alimentación">Alimentación</option>
+            </select>
+            <select id="statusFilter" onchange="filterProducts()">
+                <option value="">Todos los estados</option>
+                <option value="disponible">Disponible</option>
+                <option value="dañado">Dañado</option>
+                <option value="vencido">Vencido</option>
+            </select>
+        </div>
+
+        <!-- Tabla de Productos -->
+        <div class="table-container">
+            <table id="productsTable" class="data-table">
+                <thead>
+                    <tr>
+                        <th>Código</th>
+                        <th>Nombre</th>
+                        <th>Categoría</th>
+                        <th>Stock</th>
+                        <th>Stock Mínimo</th>
+                        <th>Precio</th>
+                        <th>Estado</th>
+                        <th>Proveedor</th>
+                        <th>Fecha Ingreso</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="productsTableBody">
+                </tbody>
+            </table>
+        </div>
+
+        <!-- Productos Dañados/Vencidos -->
+        <div class="damaged-products-section">
+            <h3>Productos Dañados/Vencidos</h3>
+            <div id="damagedProductsList" class="damaged-list"></div>
+        </div>
+    </div>
+
+    <!-- Modal Agregar/Editar Producto -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('productModal')">&times;</span>
+            <h3 id="modalTitle">Agregar Producto</h3>
+            <form id="productForm">
+                <input type="hidden" id="productId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productCode">Código del Producto</label>
+                        <input type="text" id="productCode" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productName">Nombre del Producto</label>
+                        <input type="text" id="productName" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productCategory">Categoría</label>
+                        <select id="productCategory" required>
+                            <option value="">Seleccionar categoría</option>
+                            <option value="Electrónicos">Electrónicos</option>
+                            <option value="Ropa">Ropa</option>
+                            <option value="Hogar">Hogar</option>
+                            <option value="Alimentación">Alimentación</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="productPrice">Precio</label>
+                        <input type="number" id="productPrice" step="0.01" required>
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="productStock">Stock Inicial</label>
+                        <input type="number" id="productStock" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="productMinStock">Stock Mínimo</label>
+                        <input type="number" id="productMinStock" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="productSupplier">Proveedor</label>
+                    <input type="text" id="productSupplier" required>
+                </div>
+                <div class="form-actions">
+                    <button type="button" onclick="closeModal('productModal')" class="btn btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Actualizar Stock -->
+    <div id="stockModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('stockModal')">&times;</span>
+            <h3>Actualizar Stock</h3>
+            <form id="stockForm">
+                <input type="hidden" id="stockProductId">
+                <div class="form-group">
+                    <label for="stockQuantity">Nueva Cantidad</label>
+                    <input type="number" id="stockQuantity" required>
+                </div>
+                <div class="form-group">
+                    <label for="stockReason">Razón del Cambio</label>
+                    <select id="stockReason" required>
+                        <option value="">Seleccionar razón</option>
+                        <option value="venta">Venta</option>
+                        <option value="compra">Compra</option>
+                        <option value="dañado">Producto dañado</option>
+                        <option value="vencido">Producto vencido</option>
+                        <option value="ajuste">Ajuste de inventario</option>
+                    </select>
+                </div>
+                <div class="form-actions">
+                    <button type="button" onclick="closeModal('stockModal')" class="btn btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Actualizar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/inventory.js"></script>
+</body>
+</html>

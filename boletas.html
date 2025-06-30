@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boletas - Sistema de Gestión</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="nav-title">Sistema de Inventario</h1>
+            <ul class="nav-menu">
+                <li><a href="inventario.html">Inventario</a></li>
+                <li><a href="contactos.html">Contactos</a></li>
+                <li><a href="boletas.html" class="active">Boletas</a></li>
+                <li><a href="registro.html">Registro</a></li>
+                <li><a href="#" onclick="logout()">Cerrar Sesión</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h2>Gestión de Boletas</h2>
+            <button class="btn btn-primary" onclick="openModal('boletaModal')">Nueva Boleta</button>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filters-container">
+            <input type="text" id="searchBoleta" placeholder="Buscar por número o cliente..." onkeyup="filterBoletas()">
+            <input type="date" id="dateFrom" onchange="filterBoletas()">
+            <input type="date" id="dateTo" onchange="filterBoletas()">
+            <select id="statusFilterBoleta" onchange="filterBoletas()">
+                <option value="">Todos los estados</option>
+                <option value="pagada">Pagada</option>
+                <option value="pendiente">Pendiente</option>
+                <option value="anulada">Anulada</option>
+            </select>
+        </div>
+
+        <!-- Tabla de Boletas -->
+        <div class="table-container">
+            <table id="boletasTable" class="data-table">
+                <thead>
+                    <tr>
+                        <th>Número</th>
+                        <th>Cliente</th>
+                        <th>Fecha</th>
+                        <th>Total</th>
+                        <th>Estado</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="boletasTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal Nueva Boleta -->
+    <div id="boletaModal" class="modal large-modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('boletaModal')">&times;</span>
+            <h3>Nueva Boleta</h3>
+            <form id="boletaForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="boletaNumber">Número de Boleta</label>
+                        <input type="text" id="boletaNumber" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label for="boletaClient">Cliente</label>
+                        <select id="boletaClient" required>
+                            <option value="">Seleccionar cliente</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <h4>Productos</h4>
+                <div class="product-selection">
+                    <select id="productSelect">
+                        <option value="">Seleccionar producto</option>
+                    </select>
+                    <input type="number" id="productQuantity" placeholder="Cantidad" min="1">
+                    <button type="button" onclick="addProductToBoleta()" class="btn btn-secondary">Agregar</button>
+                </div>
+                
+                <div class="boleta-products">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Producto</th>
+                                <th>Precio</th>
+                                <th>Cantidad</th>
+                                <th>Subtotal</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody id="boletaProductsBody">
+                        </tbody>
+                    </table>
+                </div>
+                
+                <div class="boleta-total">
+                    <h3>Total: S/.<span id="boletaTotal">0.00</span></h3>
+                </div>
+                
+                <div class="form-actions">
+                    <button type="button" onclick="closeModal('boletaModal')" class="btn btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Generar Boleta</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Ver Boleta -->
+    <div id="viewBoletaModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('viewBoletaModal')">&times;</span>
+            <div id="boletaDetails"></div>
+            <div class="form-actions">
+                <button type="button" onclick="printBoleta()" class="btn btn-primary">Imprimir</button>
+                <button type="button" onclick="closeModal('viewBoletaModal')" class="btn btn-secondary">Cerrar</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/boletas.js"></script>
+</body>
+</html>

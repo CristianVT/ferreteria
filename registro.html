@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Registro de Movimientos - Sistema de Gestión</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="nav-title">Sistema de Inventario</h1>
+            <ul class="nav-menu">
+                <li><a href="inventario.html">Inventario</a></li>
+                <li><a href="contactos.html">Contactos</a></li>
+                <li><a href="boletas.html">Boletas</a></li>
+                <li><a href="registro.html" class="active">Registro</a></li>
+                <li><a href="#" onclick="logout()">Cerrar Sesión</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h2>Historial de Movimientos</h2>
+            <button class="btn btn-primary" onclick="exportHistory()">Exportar a Excel</button>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filters-container">
+            <input type="text" id="searchMovement" placeholder="Buscar producto..." onkeyup="filterMovements()">
+            <input type="date" id="dateFromMovement" onchange="filterMovements()">
+            <input type="date" id="dateToMovement" onchange="filterMovements()">
+            <select id="movementTypeFilter" onchange="filterMovements()">
+                <option value="">Todos los movimientos</option>
+                <option value="entrada">Entrada</option>
+                <option value="salida">Salida</option>
+                <option value="ajuste">Ajuste</option>
+            </select>
+            <select id="reasonFilter" onchange="filterMovements()">
+                <option value="">Todas las razones</option>
+                <option value="venta">Venta</option>
+                <option value="compra">Compra</option>
+                <option value="dañado">Producto dañado</option>
+                <option value="vencido">Producto vencido</option>
+                <option value="ajuste">Ajuste de inventario</option>
+            </select>
+        </div>
+
+        <!-- Resumen de Último Lote -->
+        <div class="last-batch-section">
+            <h3>Información de Último Lote</h3>
+            <div class="form-group">
+                <label for="productSelectBatch">Seleccionar Producto:</label>
+                <select id="productSelectBatch" onchange="showLastBatch()">
+                    <option value="">Seleccionar producto</option>
+                </select>
+            </div>
+            <div id="lastBatchInfo" class="batch-info" style="display: none;">
+                <div class="info-card">
+                    <h4>Último Lote Recibido</h4>
+                    <p><strong>Fecha de Ingreso:</strong> <span id="lastBatchDate"></span></p>
+                    <p><strong>Cantidad Recibida:</strong> <span id="lastBatchQuantity"></span></p>
+                    <p><strong>Proveedor:</strong> <span id="lastBatchSupplier"></span></p>
+                </div>
+            </div>
+        </div>
+
+        <!-- Tabla de Movimientos -->
+        <div class="table-container">
+            <table id="movementsTable" class="data-table">
+                <thead>
+                    <tr>
+                        <th>Fecha</th>
+                        <th>Producto</th>
+                        <th>Tipo</th>
+                        <th>Cantidad</th>
+                        <th>Stock Anterior</th>
+                        <th>Stock Nuevo</th>
+                        <th>Razón</th>
+                        <th>Usuario</th>
+                    </tr>
+                </thead>
+                <tbody id="movementsTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/movements.js"></script>
+</body>
+</html>

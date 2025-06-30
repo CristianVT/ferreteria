@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contactos - Sistema de Gestión</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <h1 class="nav-title">Sistema de Inventario</h1>
+            <ul class="nav-menu">
+                <li><a href="inventario.html">Inventario</a></li>
+                <li><a href="contactos.html" class="active">Contactos</a></li>
+                <li><a href="boletas.html">Boletas</a></li>
+                <li><a href="registro.html">Registro</a></li>
+                <li><a href="#" onclick="logout()">Cerrar Sesión</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <div class="page-header">
+            <h2>Gestión de Contactos</h2>
+            <button class="btn btn-primary" onclick="openModal('contactModal')">Agregar Contacto</button>
+        </div>
+
+        <!-- Filtros -->
+        <div class="filters-container">
+            <input type="text" id="searchContact" placeholder="Buscar contacto..." onkeyup="filterContacts()">
+            <select id="typeFilter" onchange="filterContacts()">
+                <option value="">Todos los tipos</option>
+                <option value="proveedor">Proveedor</option>
+                <option value="cliente">Cliente</option>
+            </select>
+        </div>
+
+        <!-- Tabla de Contactos -->
+        <div class="table-container">
+            <table id="contactsTable" class="data-table">
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Empresa</th>
+                        <th>Tipo</th>
+                        <th>Teléfono</th>
+                        <th>Email</th>
+                        <th>Dirección</th>
+                        <th>Acciones</th>
+                    </tr>
+                </thead>
+                <tbody id="contactsTableBody">
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <!-- Modal Agregar/Editar Contacto -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal('contactModal')">&times;</span>
+            <h3 id="contactModalTitle">Agregar Contacto</h3>
+            <form id="contactForm">
+                <input type="hidden" id="contactId">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="contactName">Nombre</label>
+                        <input type="text" id="contactName" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactCompany">Empresa</label>
+                        <input type="text" id="contactCompany">
+                    </div>
+                </div>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="contactType">Tipo</label>
+                        <select id="contactType" required>
+                            <option value="">Seleccionar tipo</option>
+                            <option value="proveedor">Proveedor</option>
+                            <option value="cliente">Cliente</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="contactPhone">Teléfono</label>
+                        <input type="tel" id="contactPhone" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="contactEmail">Email</label>
+                    <input type="email" id="contactEmail" required>
+                </div>
+                <div class="form-group">
+                    <label for="contactAddress">Dirección</label>
+                    <textarea id="contactAddress" rows="3"></textarea>
+                </div>
+                <div class="form-actions">
+                    <button type="button" onclick="closeModal('contactModal')" class="btn btn-secondary">Cancelar</button>
+                    <button type="submit" class="btn btn-primary">Guardar</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="js/auth.js"></script>
+    <script src="js/contacts.js"></script>
+</body>
+</html>

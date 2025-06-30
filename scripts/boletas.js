@@ -46,7 +46,7 @@ class BoletasSystem {
 
       productSelect.innerHTML = '<option value="">Seleccionar producto</option>'
       availableProducts.forEach((product) => {
-        productSelect.innerHTML += `<option value="${product.id}">${product.name} - $${product.price.toFixed(2)} (Stock: ${product.stock})</option>`
+        productSelect.innerHTML += `<option value="${product.id}">${product.name} - S/.${product.price.toFixed(2)} (Stock: ${product.stock})</option>`
       })
     }
   }
@@ -116,9 +116,9 @@ class BoletasSystem {
       const row = document.createElement("tr")
       row.innerHTML = `
                 <td>${product.name}</td>
-                <td>$${product.price.toFixed(2)}</td>
+                <td>S/.${product.price.toFixed(2)}</td>
                 <td>${product.quantity}</td>
-                <td>$${product.subtotal.toFixed(2)}</td>
+                <td>S/.${product.subtotal.toFixed(2)}</td>
                 <td>
                     <button type="button" class="btn btn-danger" onclick="removeProductFromBoleta(${index})">Eliminar</button>
                 </td>
@@ -218,7 +218,7 @@ class BoletasSystem {
                 <td>${boleta.number.toString().padStart(6, "0")}</td>
                 <td>${boleta.clientName}</td>
                 <td>${boleta.date}</td>
-                <td>$${boleta.total.toFixed(2)}</td>
+                <td>S/.${boleta.total.toFixed(2)}</td>
                 <td><span class="status-${boleta.status}">${boleta.status}</span></td>
                 <td>
                     <button class="btn btn-primary" onclick="viewBoleta(${boleta.id})">Ver</button>
@@ -257,9 +257,9 @@ function viewBoleta(id) {
     productsHtml += `
             <tr>
                 <td>${product.name}</td>
-                <td>$${product.price.toFixed(2)}</td>
+                <td>S/.${product.price.toFixed(2)}</td>
                 <td>${product.quantity}</td>
-                <td>$${product.subtotal.toFixed(2)}</td>
+                <td>S/.${product.subtotal.toFixed(2)}</td>
             </tr>
         `
   })
@@ -286,7 +286,7 @@ function viewBoleta(id) {
             </table>
             
             <div class="boleta-total">
-                <h3>Total: $${boleta.total.toFixed(2)}</h3>
+                <h3>Total: S/.${boleta.total.toFixed(2)}</h3>
             </div>
         </div>
     `

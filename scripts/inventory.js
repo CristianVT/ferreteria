@@ -184,7 +184,7 @@ class InventorySystem {
                 <td>${product.category}</td>
                 <td>${product.stock}</td>
                 <td>${product.minStock}</td>
-                <td>$${product.price.toFixed(2)}</td>
+                <td>S/.${product.price.toFixed(2)}</td>
                 <td><span class="status-${product.status}">${product.status}</span></td>
                 <td>${product.supplier}</td>
                 <td>${product.entryDate}</td>

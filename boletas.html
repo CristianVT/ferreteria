@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Boletas - Sistema de Gestión</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
     <nav class="navbar">
@@ -15,6 +15,7 @@
                 <li><a href="contactos.html">Contactos</a></li>
                 <li><a href="boletas.html" class="active">Boletas</a></li>
                 <li><a href="registro.html">Registro</a></li>
+                <li id="usersMenuItem" style="display: none;"><a href="usuarios.html">Usuarios</a></li>
                 <li><a href="#" onclick="logout()">Cerrar Sesión</a></li>
             </ul>
         </div>
@@ -103,7 +104,7 @@
                 </div>
                 
                 <div class="boleta-total">
-                    <h3>Total: S/.<span id="boletaTotal">0.00</span></h3>
+                    <h3>Total: $<span id="boletaTotal">0.00</span></h3>
                 </div>
                 
                 <div class="form-actions">
@@ -126,7 +127,18 @@
         </div>
     </div>
 
-    <script src="js/auth.js"></script>
-    <script src="js/boletas.js"></script>
+    <script src="scripts/auth.js"></script>
+    <script src="scripts/boletas.js"></script>
+    <script>
+// Mostrar menú de usuarios solo para administradores
+document.addEventListener('DOMContentLoaded', () => {
+  if (auth && auth.isAdmin()) {
+    const usersMenuItem = document.getElementById('usersMenuItem');
+    if (usersMenuItem) {
+      usersMenuItem.style.display = 'block';
+    }
+  }
+});
+</script>
 </body>
 </html>

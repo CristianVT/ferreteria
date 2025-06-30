@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Inventario - Sistema de Gestión</title>
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="styles/main.css">
 </head>
 <body>
     <nav class="navbar">
@@ -15,6 +15,7 @@
                 <li><a href="contactos.html">Contactos</a></li>
                 <li><a href="boletas.html">Boletas</a></li>
                 <li><a href="registro.html">Registro</a></li>
+                <li id="usersMenuItem" style="display: none;"><a href="usuarios.html">Usuarios</a></li>
                 <li><a href="#" onclick="logout()">Cerrar Sesión</a></li>
             </ul>
         </div>
@@ -101,10 +102,21 @@
                         <label for="productCategory">Categoría</label>
                         <select id="productCategory" required>
                             <option value="">Seleccionar categoría</option>
-                            <option value="Electrónicos">Electrónicos</option>
-                            <option value="Ropa">Ropa</option>
-                            <option value="Hogar">Hogar</option>
-                            <option value="Alimentación">Alimentación</option>
+                            <option value="Clavos y Tornillos">Clavos y Tornillos</option>
+                            <option value="Cables Eléctricos">Cables Eléctricos</option>
+                            <option value="Tubos y Conexiones PVC">Tubos y Conexiones PVC</option>
+                            <option value="Pinturas y Selladores">Pinturas y Selladores</option>
+                            <option value="Discos y Brocas">Discos y Brocas</option>
+                            <option value="Herramientas de Medición">Herramientas de Medición</option>
+                            <option value="Chapas y Cerraduras">Chapas y Cerraduras</option>
+                            <option value="Protección Personal (EPP)">Protección Personal (EPP)</option>
+                            <option value="Tuberías de Agua y Gas">Tuberías de Agua y Gas</option>
+                            <option value="Iluminación">Iluminación</option>
+                            <option value="Interruptores y Tomacorrientes">Interruptores y Tomacorrientes</option>
+                            <option value="Pegamentos y Adhesivos">Pegamentos y Adhesivos</option>
+                            <option value="Ruedas y Rieles para Muebles">Ruedas y Rieles para Muebles</option>
+                            <option value="Accesorios de Baño y Cocina">Accesorios de Baño y Cocina</option>
+                            <option value="Soportes y Anclajes">Soportes y Anclajes</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -164,7 +176,18 @@
         </div>
     </div>
 
-    <script src="js/auth.js"></script>
-    <script src="js/inventory.js"></script>
+    <script src="scripts/auth.js"></script>
+    <script src="scripts/inventory.js"></script>
+    <script>
+// Mostrar menú de usuarios solo para administradores
+document.addEventListener('DOMContentLoaded', () => {
+  if (auth && auth.isAdmin()) {
+    const usersMenuItem = document.getElementById('usersMenuItem');
+    if (usersMenuItem) {
+      usersMenuItem.style.display = 'block';
+    }
+  }
+});
+</script>
 </body>
 </html>
